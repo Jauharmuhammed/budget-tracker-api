@@ -8,8 +8,8 @@ class IncomeCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
 
     note = models.TextField(null=True, blank=True)
-    isActive = models.BooleanField(default=True)
-    isDefault = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_default = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -27,8 +27,8 @@ class ExpenseCategory(models.Model):
     level = models.PositiveIntegerField()
 
     note = models.TextField(null=True, blank=True)
-    isActive = models.BooleanField(default=True)
-    isDefault = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_default = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -43,8 +43,8 @@ class ExpenseAccount(models.Model):
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
 
     note = models.TextField(null=True, blank=True)
-    isActive = models.BooleanField(default=True)
-    isDefault = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_default = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -54,14 +54,18 @@ class ExpenseAccount(models.Model):
 
 
 class Income(models.Model):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    name = models.CharField(max_length=256)
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    expected_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(IncomeCategory, on_delete=models.RESTRICT)
     account = models.ForeignKey(ExpenseAccount, on_delete=models.RESTRICT)
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
 
     note = models.TextField(blank=True)
-    isActive = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -71,14 +75,18 @@ class Income(models.Model):
 
 
 class Expense(models.Model):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    name = models.CharField(max_length=256)
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    expected_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(ExpenseCategory, on_delete=models.RESTRICT)
     account = models.ForeignKey(ExpenseAccount, on_delete=models.RESTRICT)
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
 
-    note = models.TextField(blank=True)
-    isActive = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
